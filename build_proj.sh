@@ -16,7 +16,7 @@ echo ""
 
 echo "Compilando MakeFiles"
 echo ""
-cd $(pwd)/build
+cd build/
 make
 echo ""
 
