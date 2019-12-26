@@ -1,22 +1,25 @@
 #include <iostream>
 #include <stdlib.h>
 
-void DecrementBalance(int value);
-void IncrementBalance(int value);
-void ShowBalance();
-
 void LoginMenu();
 void MainMenu();
 void OptionsMenu(std::string option);
-void VerifyAccount();
 
-const int account_number = 12345;
-const int account_pin = 54321;
+struct AccountData
+{
+    const int account_number = 12345;
+    const int account_pin = 54321;
 
-float account_balance = 250.0f;
+    float account_balance = 250.0f;
 
-int verify_number;
-int verify_pin;
+    bool VerifyAccount(int number, int pin);
+
+    void DecrementBalance(int value);
+    void IncrementBalance(int value);
+    void ShowBalance();    
+};
+
+AccountData acc;
 
 int option_choice;
 int menu_choice;
@@ -24,29 +27,28 @@ int menu_choice;
 int main() {
 
     LoginMenu();
-    MainMenu();
 
     switch (menu_choice) {
     case 1:
-        ShowBalance();
+        acc.ShowBalance();
         break;    
     case 2:
         OptionsMenu("Deposit");
 
         if (option_choice == 1) {
-            IncrementBalance(20);
+            acc.IncrementBalance(20);
         }
         if (option_choice == 2) {
-            IncrementBalance(40);
+            acc.IncrementBalance(40);
         }
         if (option_choice == 3) {
-            IncrementBalance(60);
+            acc.IncrementBalance(60);
         }
         if (option_choice == 4) {
-            IncrementBalance(100);
+            acc.IncrementBalance(100);
         }
         if (option_choice == 5) {
-            IncrementBalance(200);
+            acc.IncrementBalance(200);
         }
         if (option_choice == 6) {
             return 0;
@@ -56,19 +58,19 @@ int main() {
         OptionsMenu("Withdrawal");
 
         if (option_choice == 1) {
-            DecrementBalance(20);
+            acc.DecrementBalance(20);
         }
         if (option_choice == 2) {
-            DecrementBalance(40);
+            acc.DecrementBalance(40);
         }
         if (option_choice == 3) {
-            DecrementBalance(60);
+            acc.DecrementBalance(60);
         }
         if (option_choice == 4) {
-            DecrementBalance(100);
+            acc.DecrementBalance(100);
         }
         if (option_choice == 5) {
-            DecrementBalance(200);
+            acc.DecrementBalance(200);
         }
         if (option_choice == 6) {
             return 0;
@@ -79,27 +81,27 @@ int main() {
     return 0;
 }
 
-void VerifyAccount() {
-    if (account_number == verify_number) {
-        if (account_pin == verify_pin) {
-            std::cout << std::endl << "Log!" << std::endl;
-        }
-    }   
-}
-
 void LoginMenu() {
+    system("clear||cls");
+
+    int get_number, get_pin;
+
     std::cout << "Welcome!\n" << std::endl;
     std::cout << "Please enter your account number: ";
-    std::cin >> verify_number;
+    std::cin >> get_number;
     std::cout << std::endl << "Enter your PIN: ";
-    std::cin >> verify_pin;
+    std::cin >> get_pin;
 
-    VerifyAccount();
-
-    system("clear||cls");
+    if(!acc.VerifyAccount(get_number, get_pin)) {
+        LoginMenu();
+    } else {
+        MainMenu();
+    }
 }
 
 void MainMenu() {
+    system("clear||cls");
+
     std::cout << "Main menu: " << std::endl;
     std::cout << "  1 - View my balance" << std::endl;
     std::cout << "  2 - Withdraw cash" << std::endl;
@@ -107,33 +109,39 @@ void MainMenu() {
     std::cout << "  4 - Exit" << std::endl;
     std::cout << "Enter a choice: ";
     std::cin >> menu_choice;
-
-    system("clear||cls");
 }
 
 void OptionsMenu(std::string option) {
+    system("clear||cls");    
+
     std::cout << option << " options: " << std::endl;
     std::cout << "  1 - $20     4 - $100" << std::endl;
     std::cout << "  2 - $40     5 - $200" << std::endl;
     std::cout << "  3 - $60     6 - Cancel transaction" << std::endl;
     std::cout << "Choose a " << option << " option (1-6): ";
     std::cin >> option_choice;
-
-    system("clear||cls");    
 }
 
-void IncrementBalance(int value) {
+bool AccountData::VerifyAccount(int number, int pin) {
+    if (account_number == number && account_pin == pin) {
+        return true; 
+    } else {
+        return false;
+    }
+}
+
+void AccountData::IncrementBalance(int value) {
     account_balance += value;
     std::cout << "Deposit R$ " << value << std::endl;  
     ShowBalance();
 }
 
-void DecrementBalance(int value) {
+void AccountData::DecrementBalance(int value) {
     account_balance += value;
     std::cout << "Deposit R$ " << value << std::endl;  
     ShowBalance();
 }
 
-void ShowBalance() {
+void AccountData::ShowBalance() {
     std::cout << "Your balance amount: " << account_balance << std::endl;
 }
