@@ -1,15 +1,19 @@
 #include <iostream>
 #include <stdlib.h>
 
+void IncrementBalance(int value);
+void DecrementBalance(int value);
+void ShowBalance();
+
+const int account_number = 12345;
+const int account_pin = 54321;
+
+float account_balance = 250.0f;
+
+int verify_number;
+int verify_pin;
+
 int main() {
-
-    const int account_number = 12345;
-    const int account_pin = 54321;
-
-    float account_balance = 250.0f;
-
-    int verify_number;
-    int verify_pin;
 
     std::cout << "Welcome!\n" << std::endl;
     std::cout << "Please enter your account number: ";
@@ -52,29 +56,19 @@ int main() {
         system("clear||cls");
 
         if (withdraw_choice == 1) {
-            account_balance -= 20;
-            std::cout << "Withdraw R$ 20,00" << std::endl;  
-            std::cout << "Your balance amount: " << account_balance << std::endl;
+            DecrementBalance(20);
         }
         if (withdraw_choice == 2) {
-            account_balance -= 40;
-            std::cout << "Withdraw R$ 40,00" << std::endl;  
-            std::cout << "Your balance amount: " << account_balance << std::endl;
+            DecrementBalance(40);
         }
         if (withdraw_choice == 3) {
-            account_balance -= 60;
-            std::cout << "Withdraw R$ 60,00" << std::endl;  
-            std::cout << "Your balance amount: " << account_balance << std::endl;
+            DecrementBalance(60);
         }
         if (withdraw_choice == 4) {
-            account_balance -= 100;
-            std::cout << "Withdraw R$ 100,00" << std::endl;  
-            std::cout << "Your balance amount: " << account_balance << std::endl;
+            DecrementBalance(100);
         }
         if (withdraw_choice == 5) {
-            account_balance -= 200;
-            std::cout << "Withdraw R$ 200,00" << std::endl;  
-            std::cout << "Your balance amount: " << account_balance << std::endl;
+            DecrementBalance(200);
         }
         if (withdraw_choice == 6) {
             return 0;
@@ -92,37 +86,43 @@ int main() {
         system("clear||cls");
 
         if (deposit_choice == 1) {
-            account_balance += 20;
-            std::cout << "Deposit R$ 20,00" << std::endl;  
-            std::cout << "Your balance amount: " << account_balance << std::endl;
+            IncrementBalance(20);
         }
         if (deposit_choice == 2) {
-            account_balance += 40;
-            std::cout << "Deposit R$ 40,00" << std::endl;  
-            std::cout << "Your balance amount: " << account_balance << std::endl;
+            IncrementBalance(40);
         }
         if (deposit_choice == 3) {
-            account_balance += 60;
-            std::cout << "Deposit R$ 60,00" << std::endl;  
-            std::cout << "Your balance amount: " << account_balance << std::endl;
+            IncrementBalance(60);
         }
         if (deposit_choice == 4) {
-            account_balance += 100;
-            std::cout << "Deposit R$ 100,00" << std::endl;  
-            std::cout << "Your balance amount: " << account_balance << std::endl;
+            IncrementBalance(100);
         }
         if (deposit_choice == 5) {
-            account_balance += 200;
-            std::cout << "Deposit R$ 200,00" << std::endl;  
-            std::cout << "Your balance amount: " << account_balance << std::endl;
+            IncrementBalance(200);
         }
         if (deposit_choice == 6) {
             return 0;
         } 
     }
-     else if (menu_choice == 1) {
-        std::cout << "Your balance amount: " << account_balance << std::endl;
+    else if (menu_choice == 1) {
+        ShowBalance();
     }
 
     return 0;
+}
+
+void IncrementBalance(int value) {
+    account_balance += value;
+    std::cout << "Deposit R$ " << value << std::endl;  
+    ShowBalance()
+}
+
+void DecrementBalance(int value) {
+    account_balance += value;
+    std::cout << "Deposit R$ " << value << std::endl;  
+    ShowBalance();
+}
+
+void ShowBalance() {
+    std::cout << "Your balance amount: " << account_balance << std::endl;
 }
