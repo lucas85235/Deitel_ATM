@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <unistd.h>
 
 void LoginMenu();
 void MainMenu();
@@ -28,54 +29,58 @@ int main() {
 
     LoginMenu();
 
-    switch (menu_choice) {
-    case 1:
-        acc.ShowBalance();
-        break;    
-    case 2:
-        OptionsMenu("Deposit");
+    while(menu_choice != 4) {
+        MainMenu();
 
-        if (option_choice == 1) {
-            acc.IncrementBalance(20);
-        }
-        if (option_choice == 2) {
-            acc.IncrementBalance(40);
-        }
-        if (option_choice == 3) {
-            acc.IncrementBalance(60);
-        }
-        if (option_choice == 4) {
-            acc.IncrementBalance(100);
-        }
-        if (option_choice == 5) {
-            acc.IncrementBalance(200);
-        }
-        if (option_choice == 6) {
-            return 0;
-        } 
-        break;
-    case 3:
-        OptionsMenu("Withdrawal");
+        switch (menu_choice) {
+        case 1:
+            acc.ShowBalance();
+            break;    
+        case 2:
+            OptionsMenu("Withdrawal");
 
-        if (option_choice == 1) {
-            acc.DecrementBalance(20);
+            if (option_choice == 1) {
+                acc.DecrementBalance(20);
+            }
+            if (option_choice == 2) {
+                acc.DecrementBalance(40);
+            }
+            if (option_choice == 3) {
+                acc.DecrementBalance(60);
+            }
+            if (option_choice == 4) {
+                acc.DecrementBalance(100);
+            }
+            if (option_choice == 5) {
+                acc.DecrementBalance(200);
+            }
+            if (option_choice == 6) {
+                return 0;
+            }   
+            break;
+        case 3:
+            OptionsMenu("Deposit");
+
+            if (option_choice == 1) {
+                acc.IncrementBalance(20);
+            }
+            if (option_choice == 2) {
+                acc.IncrementBalance(40);
+            }
+            if (option_choice == 3) {
+                acc.IncrementBalance(60);
+            }
+            if (option_choice == 4) {
+                acc.IncrementBalance(100);
+            }
+            if (option_choice == 5) {
+                acc.IncrementBalance(200);
+            }
+            if (option_choice == 6) {
+                return 0;
+            } 
+            break;
         }
-        if (option_choice == 2) {
-            acc.DecrementBalance(40);
-        }
-        if (option_choice == 3) {
-            acc.DecrementBalance(60);
-        }
-        if (option_choice == 4) {
-            acc.DecrementBalance(100);
-        }
-        if (option_choice == 5) {
-            acc.DecrementBalance(200);
-        }
-        if (option_choice == 6) {
-            return 0;
-        }   
-        break;
     }
 
     return 0;
@@ -94,8 +99,6 @@ void LoginMenu() {
 
     if(!acc.VerifyAccount(get_number, get_pin)) {
         LoginMenu();
-    } else {
-        MainMenu();
     }
 }
 
@@ -132,16 +135,23 @@ bool AccountData::VerifyAccount(int number, int pin) {
 
 void AccountData::IncrementBalance(int value) {
     account_balance += value;
-    std::cout << "Deposit R$ " << value << std::endl;  
+    std::cout << "\n\n" << "Deposit R$ " << value << std::endl;  
     ShowBalance();
 }
 
 void AccountData::DecrementBalance(int value) {
-    account_balance += value;
-    std::cout << "Deposit R$ " << value << std::endl;  
+    if (account_balance > value) {
+        account_balance -= value;
+        std::cout << "\n\n" << "Withdraw R$ " << value << std::endl;      
+    }
+    else {
+        std::cout << "\n\n" << "You have no balance to perform this transaction!" << std::endl;      
+    }
+ 
     ShowBalance();
 }
 
 void AccountData::ShowBalance() {
-    std::cout << "Your balance amount: " << account_balance << std::endl;
+    std::cout << "\n\n" << "Your balance amount: " << account_balance << std::endl;
+    sleep(4);
 }
